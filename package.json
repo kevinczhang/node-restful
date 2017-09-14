@@ -1,0 +1,19 @@
+{
+  "name": "node-restful",
+  "version": "1.0.0",
+  "description": "node with mongodb restful api",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "express": "~4.0.0",
+    "jsonwebtoken": "^8.0.1",
+    "mongoose": "~3.6.13",
+    "morgan": "^1.8.2",
+    "sqlite3": "^3.1.10"
+  }
+}
