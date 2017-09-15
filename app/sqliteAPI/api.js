@@ -33,7 +33,7 @@ router.route('/problems')
             console.log('Connected to the problems database.');
         });
 
-        let sql = `SELECT ID as id, TITLE as title FROM problems`;
+        let sql = `SELECT * FROM problems`;
 
         db.all(sql, [], (err, rows) => {
             if (err) {
@@ -65,7 +65,18 @@ router.route('/problems')
         let sql = `INSERT INTO problems(ID, Number, Title, Difficulty, Description, Solution, Tags, Companies, SpecialTags) VALUES(?,?,?,?,?,?,?,?,?)`;
 
         // insert one row into the langs table
-        db.run(sql, [440, req.body.name, 'req.body.title', req.body.level, req.body.description, '', '', '', ''], function (err) {
+        let problemID = req.body.ID ? req.body.ID : '';
+        let problemNumber = req.body.number ? req.body.number : '';
+        let problemTitle = req.body.title ? req.body.title : '';
+        let problemDifficulty = req.body.level ? req.body.level : '';
+        let problemDescription = req.body.description ? req.body.description : '';
+        let problemSolution = req.body.solution ? req.body.solution : '';
+        let problemTags = req.body.tags ? req.body.tags : '';
+        let problemCompanies = req.body.companies ? req.body.companies : '';
+        let problemSpecialTags = req.body.specialTags ? req.body.specialTags : '';
+
+        db.run(sql, [problemID, problemNumber, problemTitle, problemDifficulty, problemDescription, problemSolution,
+                problemTags, problemCompanies, problemSpecialTags], function (err) {
             if (err) {
                 return console.log(err.message);
                 res.send(err);
