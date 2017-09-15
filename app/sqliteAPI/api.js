@@ -19,15 +19,16 @@ router.get('/', function (req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
 
-// on routes that end in /bears
+// on routes that end in /problems
 // ----------------------------------------------------
-router.route('/bears')
-    // get all the bears (accessed at GET http://localhost:8080/api/bears)
+router.route('/problems')
+    // get all the problems (accessed at GET http://localhost:8080/api/problems)
     .get(function (req, res) {
         // open the database
         let db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
             if (err) {
                 console.error(err.message);
+                res.send(err);
             }
             console.log('Connected to the problems database.');
         });
@@ -37,6 +38,7 @@ router.route('/bears')
         db.all(sql, [], (err, rows) => {
             if (err) {
                 throw err;
+                res.send(err);
             }
             res.json(rows);
         });
@@ -49,12 +51,13 @@ router.route('/bears')
         });
     })
 
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    // create a bear (accessed at POST http://localhost:8080/api/problems)
     .post(function (req, res) {
         // open the database
         let db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
             if (err) {
                 console.error(err.message);
+                res.send(err);
             }
             console.log('Connected to the problems database.');
         });
@@ -65,9 +68,11 @@ router.route('/bears')
         db.run(sql, [440, req.body.name, 'req.body.title', req.body.level, req.body.description, '', '', '', ''], function (err) {
             if (err) {
                 return console.log(err.message);
+                res.send(err);
             }
             // get the last insert id
             console.log(`A row has been inserted with rowid ${this.lastID}`);
+            res.json({ message: 'A new problem created!' });
         });
 
         db.close((err) => {

@@ -1,6 +1,6 @@
 var User = require('../models/user');
 var express = require('express'); // call express
-var config = require('../mongoAPI/config');
+var config = require('../config');
 
 // ROUTES FOR OUR API
 // =============================================================================
