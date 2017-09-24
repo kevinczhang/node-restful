@@ -9,6 +9,7 @@ var app = express();  // define our app using express
 var bodyParser = require('body-parser'); //will let us get parameters from our POST requests
 var morgan = require('morgan'); // will log requests to the console so we can see what is happening
 var mongoose = require('mongoose');
+var cors = require('cors');
 
 var User = require('./app/models/user');
 var userRouter;
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // use morgan to log requests to the console
 app.use(morgan('dev'));
+app.use(cors());
 
 // get an instance of the router for api routes
 var authRoutes = require('./app/authentication/authenticationAPI');
