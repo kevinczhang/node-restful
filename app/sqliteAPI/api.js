@@ -95,4 +95,50 @@ router.route('/problems')
 
     });
 
+    // update a problem (accessed at PUT http://localhost:8080/api/problems)
+    .put(function (req, res) {
+        // open the database
+        let db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
+            if (err) {
+                console.error(err.message);
+                res.send(err);
+            }
+            console.log('Connected to the problems database.');
+        });
+
+        let sql = `UPDATE problems SET Number = ?, Title = ?, Difficulty = ?, 
+            Description = ?, Solution = ?, Tags = ?, Companies = ?, SpecialTags = ?
+            WHERE ID = ?`;
+
+        // insert one row into the langs table
+        let problemID = req.body.ID ? req.body.ID : '';
+        let problemNumber = req.body.number ? req.body.number : '';
+        let problemTitle = req.body.title ? req.body.title : '';
+        let problemDifficulty = req.body.level ? req.body.level : '';
+        let problemDescription = req.body.description ? req.body.description : '';
+        let problemSolution = req.body.solution ? req.body.solution : '';
+        let problemTags = req.body.tags ? req.body.tags : '';
+        let problemCompanies = req.body.companies ? req.body.companies : '';
+        let problemSpecialTags = req.body.specialTags ? req.body.specialTags : '';
+
+        db.run(sql, [problemNumber, problemTitle, problemDifficulty, problemDescription, problemSolution,
+                problemTags, problemCompanies, problemSpecialTags, problemID], function (err) {
+            if (err) {
+                return console.log(err.message);
+                res.send(err);
+            }
+            // get the last insert id
+            console.log(`A row has been update with rowid ${this.lastID}`);
+            res.json({ message: 'The problem has been updated!' });
+        });
+
+        db.close((err) => {
+            if (err) {
+                console.error(err.message);
+            }
+            console.log('Close the database connection.');
+        });
+
+    });
+
 module.exports = router;
