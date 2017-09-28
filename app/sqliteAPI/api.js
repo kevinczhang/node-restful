@@ -66,14 +66,14 @@ router.route('/problems')
 
         // insert one row into the langs table
         let problemID = req.body.ID ? req.body.ID : '';
-        let problemNumber = req.body.number ? req.body.number : '';
-        let problemTitle = req.body.title ? req.body.title : '';
-        let problemDifficulty = req.body.level ? req.body.level : '';
-        let problemDescription = req.body.description ? req.body.description : '';
-        let problemSolution = req.body.solution ? req.body.solution : '';
-        let problemTags = req.body.tags ? req.body.tags : '';
-        let problemCompanies = req.body.companies ? req.body.companies : '';
-        let problemSpecialTags = req.body.specialTags ? req.body.specialTags : '';
+        let problemNumber = req.body.NUMBER ? req.body.NUMBER : '';
+        let problemTitle = req.body.TITLE ? req.body.TITLE : '';
+        let problemDifficulty = req.body.DIFFICULTY ? req.body.DIFFICULTY : '';
+        let problemDescription = req.body.DESCRIPTION ? req.body.DESCRIPTION : '';
+        let problemSolution = req.body.SOLUTION ? req.body.SOLUTION : '';
+        let problemTags = req.body.TAGS ? req.body.TAGS : '';
+        let problemCompanies = req.body.COMPANIES ? req.body.COMPANIES : '';
+        let problemSpecialTags = req.body.SPECIALTAGS ? req.body.SPECIALTAGS : '';
 
         db.run(sql, [problemID, problemNumber, problemTitle, problemDifficulty, problemDescription, problemSolution,
                 problemTags, problemCompanies, problemSpecialTags], function (err) {
@@ -93,7 +93,7 @@ router.route('/problems')
             console.log('Close the database connection.');
         });
 
-    });
+    })
 
     // update a problem (accessed at PUT http://localhost:8080/api/problems)
     .put(function (req, res) {
@@ -109,26 +109,26 @@ router.route('/problems')
         let sql = `UPDATE problems SET Number = ?, Title = ?, Difficulty = ?, 
             Description = ?, Solution = ?, Tags = ?, Companies = ?, SpecialTags = ?
             WHERE ID = ?`;
-
+        console.log(JSON.stringify(req.body));
         // insert one row into the langs table
         let problemID = req.body.ID ? req.body.ID : '';
-        let problemNumber = req.body.number ? req.body.number : '';
-        let problemTitle = req.body.title ? req.body.title : '';
-        let problemDifficulty = req.body.level ? req.body.level : '';
-        let problemDescription = req.body.description ? req.body.description : '';
-        let problemSolution = req.body.solution ? req.body.solution : '';
-        let problemTags = req.body.tags ? req.body.tags : '';
-        let problemCompanies = req.body.companies ? req.body.companies : '';
-        let problemSpecialTags = req.body.specialTags ? req.body.specialTags : '';
+        let problemNumber = req.body.NUMBER ? req.body.NUMBER : '';
+        let problemTitle = req.body.TITLE ? req.body.TITLE : '';
+        let problemDifficulty = req.body.DIFFICULTY ? req.body.DIFFICULTY : '';
+        let problemDescription = req.body.DESCRIPTION ? req.body.DESCRIPTION : '';
+        let problemSolution = req.body.SOLUTION ? req.body.SOLUTION : '';
+        let problemTags = req.body.TAGS ? req.body.TAGS : '';
+        let problemCompanies = req.body.COMPANIES ? req.body.COMPANIES : '';
+        let problemSpecialTags = req.body.SPECIALTAGS ? req.body.SPECIALTAGS : '';
 
         db.run(sql, [problemNumber, problemTitle, problemDifficulty, problemDescription, problemSolution,
                 problemTags, problemCompanies, problemSpecialTags, problemID], function (err) {
             if (err) {
-                return console.log(err.message);
+                console.log(err.message);
                 res.send(err);
             }
             // get the last insert id
-            console.log(`A row has been update with rowid ${this.lastID}`);
+            console.log(`A row has been update with rowid ${this.problemID}`);
             res.json({ message: 'The problem has been updated!' });
         });
 
