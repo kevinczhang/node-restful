@@ -34,12 +34,34 @@ router.route('/problems')
         });
 
         let sql = `SELECT * FROM problems`;
+        let getSource = function(num){
+          if(10000 < num && num <= 11000){
+            return 1;
+          }
+          if(11000 < num && num <= 12000){
+            return 2;
+          }
+          return 0;
+        };
 
         db.all(sql, [], (err, rows) => {
             if (err) {
                 throw err;
                 res.send(err);
             }
+            /** Used for reformat response json 
+            rows = rows.map(row => ({
+              "source": getSource(row.NUMBER),
+              "number": row.NUMBER,
+              "type": 0,
+              "title": row.TITLE,
+              "difficulty": row.DIFFICULTY,
+              "file": row.FILENAME,
+              "topics": row.TAGS.split(",").map(Number),
+              "companies": row.COMPANIES.length === 0 ? [] : row.COMPANIES.split(",").map(Number),
+              "tags": row.SPECIALTAGS.length === 0 ? [] : row.SPECIALTAGS.split(",").map(Number)
+            }));
+            **/
             res.json(rows);
         });
 
@@ -106,7 +128,7 @@ router.route('/problems')
             console.log('Connected to the problems database.');
         });
 
-        let sql = `UPDATE problems SET Number = ?, Title = ?, Difficulty = ?, 
+        let sql = `UPDATE problems SET Number = ?, Title = ?, Difficulty = ?,
             Description = ?, Solution = ?, Tags = ?, Companies = ?, SpecialTags = ?
             WHERE ID = ?`;
         console.log(JSON.stringify(req.body));
